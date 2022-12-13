@@ -1,7 +1,10 @@
 import { Color } from "cc";
 import { inversify, mobx } from "../../../common/external";
 import { DragonTigerConfigsStore } from "./dragon-tiger-configs-store";
-import { DragonTigerMatchStore } from "./dragon-tiger-match-store";
+import {
+  DragonTigerChoice,
+  DragonTigerMatchStore
+} from "./dragon-tiger-match-store";
 
 const { makeObservable, computed } = mobx;
 const { injectable, inject } = inversify;
@@ -37,10 +40,23 @@ export class DragonTigerUIStore {
   get timerColor() {
     if (this.isLockingTime) {
       return Color.RED;
-    } else if (this.isWaitingTime) {
-      return Color.TRANSPARENT;
     } else {
       return Color.WHITE;
+    }
+  }
+
+  @computed
+  get cards(): DragonTigerChoice<number> {
+    if (this.match.result) {
+      const dragon = this.match.result.dragon;
+      const tiger = this.match.result.tiger;
+
+      return {
+        dragon: 13 * dragon.type + dragon.card,
+        tiger: 13 * tiger.type + tiger.card,
+      };
+    } else {
+      return { dragon: -1, tiger: -1 };
     }
   }
 }
