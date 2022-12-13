@@ -1,8 +1,9 @@
+import { Color } from "cc";
 import { inversify, mobx } from "../../../common/external";
 import { DragonTigerConfigsStore } from "./dragon-tiger-configs-store";
 import { DragonTigerMatchStore } from "./dragon-tiger-match-store";
 
-const { observable, makeObservable, computed } = mobx;
+const { makeObservable, computed } = mobx;
 const { injectable, inject } = inversify;
 
 @injectable()
@@ -23,5 +24,23 @@ export class DragonTigerUIStore {
     const waitingAt = durationConfigs.whole - durationConfigs.waiting;
 
     return this.match.remainingTime > waitingAt;
+  }
+
+  @computed
+  get isLockingTime() {
+    const durationConfigs = this.configs.durationConfigs;
+
+    return this.match.remainingTime <= durationConfigs.locking;
+  }
+
+  @computed
+  get timerColor() {
+    if (this.isLockingTime) {
+      return Color.RED;
+    } else if (this.isWaitingTime) {
+      return Color.TRANSPARENT;
+    } else {
+      return Color.WHITE;
+    }
   }
 }

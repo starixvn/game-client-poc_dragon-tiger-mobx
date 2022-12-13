@@ -41,4 +41,9 @@ export class DragonTigerMatchStore {
       this.remainingTime = this.remainingTime - 1;
     }
   }
+
+  @action
+  setRemainingTime(time: number) {
+    this.remainingTime = time;
+  }
 }

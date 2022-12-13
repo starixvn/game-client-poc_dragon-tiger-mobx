@@ -5023,6 +5023,7 @@
     "__prefab": {
       "__id__": 267
     },
+    "timer": null,
     "_id": ""
   },
   {
@@ -5038,6 +5039,11 @@
       "__id__": 0
     },
     "fileId": "c46/YsCPVOJYA4mWEpNYRx",
+    "targetOverrides": [
+      {
+        "__id__": 269
+      }
+    ],
     "nestedPrefabInstanceRoots": [
       {
         "__id__": 245
@@ -5048,6 +5054,28 @@
       {
         "__id__": 166
       }
+    ]
+  },
+  {
+    "__type__": "cc.TargetOverrideInfo",
+    "source": {
+      "__id__": 266
+    },
+    "sourceInfo": null,
+    "propertyPath": [
+      "timer"
+    ],
+    "target": {
+      "__id__": 245
+    },
+    "targetInfo": {
+      "__id__": 270
+    }
+  },
+  {
+    "__type__": "cc.TargetInfo",
+    "localID": [
+      "043AAV7ftIYqmisdNdKxdu"
     ]
   }
 ]

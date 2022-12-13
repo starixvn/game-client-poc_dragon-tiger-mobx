@@ -1,12 +1,16 @@
-import { Component, _decorator } from "cc";
+import { Color, Component, _decorator } from "cc";
+import Timer from "../../../common/components/timer";
 import { mobx } from "../../../common/external";
-import { matchStore } from "../dragon-tiger-mobx-container";
+import { matchStore, uiStore } from "../dragon-tiger-mobx-container";
 
-const { ccclass } = _decorator;
+const { ccclass, property } = _decorator;
 const { reaction, action } = mobx;
 
 @ccclass
 export class DragonTigerMobx extends Component {
+  @property(Timer)
+  protected timer: Timer = null;
+
   onLoad() {
     this.schedule(this.updateTimer.bind(this), 1);
 
@@ -15,9 +19,9 @@ export class DragonTigerMobx extends Component {
       this.onRemainingTimeUpdated.bind(this)
     );
 
-    action((time: number) => {
-      matchStore.remainingTime = time;
-    })(36);
+    reaction(() => uiStore.timerColor, this.changeTimerColor.bind(this));
+
+    matchStore.setRemainingTime(36);
   }
 
   updateTimer() {
@@ -25,6 +29,12 @@ export class DragonTigerMobx extends Component {
   }
 
   onRemainingTimeUpdated(time: number) {
-    console.log(time);
+    this.timer!.text = time.toLocaleString("en-US", {
+      minimumIntegerDigits: 2,
+    });
+  }
+
+  changeTimerColor(color: Color) {
+    this.timer!.color = color;
   }
 }
