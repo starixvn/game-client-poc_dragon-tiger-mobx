@@ -52,9 +52,9 @@ export default class HistoryChainContainer extends Component {
     });
 
     this.container.children.map((container, index, nodes) => {
-      const node = container.children[0];
-
-      node.emit("children:updated", index, nodes.length);
+      container.children.forEach((node) => {
+        node.emit("children:updated", index, nodes.length);
+      });
     });
   }
 

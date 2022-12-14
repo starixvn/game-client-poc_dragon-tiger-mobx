@@ -1,4 +1,4 @@
-import { Sprite, _decorator, Node, tween, v3, Vec3 } from "cc";
+import { Sprite, _decorator, Node, tween, v3, Vec3, Tween } from "cc";
 import HistoryChainItem from "../../../common/components/history-chain-item";
 import { DragonTigerChoice } from "../stores/dragon-tiger-match-store";
 
@@ -14,7 +14,7 @@ export default class DragonTigerHistoryChainItem extends HistoryChainItem<
   @property(Node)
   protected highlight: Node = null;
 
-  protected animation;
+  protected animation: Tween<Node> = null;
 
   setValue(value: DragonTigerChoice<boolean>) {
     const name = this.getSpriteName(value);
