@@ -1,5 +1,6 @@
-import { Component, _decorator } from "cc";
+import { Component, director, sys, _decorator } from "cc";
 import HistoryChainManager from "../../../common/components/history-chain-manager";
+import { ServerSimulator } from "../../../server-simulator/components/server-simulator";
 import { matchStore } from "../dragon-tiger-mobx-container";
 
 const { ccclass, property } = _decorator;
@@ -10,16 +11,7 @@ export class DragonTigerMobx extends Component {
   protected historyChain: HistoryChainManager = null;
 
   onLoad() {
-    matchStore.setRemainingTime(36);
-
-    setTimeout(() => {
-      matchStore.result = {
-        dragon: { card: 0, type: 0 },
-        tiger: { card: 1, type: 2 },
-      };
-    }, 1000);
-
-    this.schedule(this.simulateHistoryChain.bind(this), 2);
+    this.connectToSimulator();
   }
 
   simulateHistoryChain() {
@@ -38,5 +30,17 @@ export class DragonTigerMobx extends Component {
     max = Math.floor(max);
 
     return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+
+  connectToSimulator() {
+    const simulator = director
+      .getScene()
+      .getComponentInChildren(ServerSimulator);
+
+    simulator.node.on("message", (data) => {
+      if (data.remainingTime) {
+        matchStore.setRemainingTime(data.remainingTime);
+      }
+    });
   }
 }
