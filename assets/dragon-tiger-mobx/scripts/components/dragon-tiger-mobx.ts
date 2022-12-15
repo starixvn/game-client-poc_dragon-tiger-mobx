@@ -1,4 +1,4 @@
-import { Component, director, sys, _decorator } from "cc";
+import { Component, director, _decorator } from "cc";
 import HistoryChainManager from "../../../common/components/history-chain-manager";
 import { ServerSimulator } from "../../../server-simulator/components/server-simulator";
 import { matchStore } from "../dragon-tiger-mobx-container";
@@ -40,6 +40,10 @@ export class DragonTigerMobx extends Component {
     simulator.node.on("message", (data) => {
       if (data.remainingTime) {
         matchStore.setRemainingTime(data.remainingTime);
+      }
+
+      if (data.totalBets) {
+        matchStore.totalBets = data.totalBets;
       }
     });
   }

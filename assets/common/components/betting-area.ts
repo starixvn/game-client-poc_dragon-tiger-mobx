@@ -1,4 +1,12 @@
-import { Color, Component, Label, Node, Sprite, _decorator } from "cc";
+import {
+  CCString,
+  Color,
+  Component,
+  Label,
+  Node,
+  Sprite,
+  _decorator,
+} from "cc";
 
 const { ccclass, property } = _decorator;
 
@@ -12,6 +20,9 @@ export default class BettingArea extends Component {
 
   @property(Node)
   protected winning: Node = null;
+
+  @property(CCString)
+  readonly key: String = "";
 
   @property
   get highlight() {

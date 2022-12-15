@@ -60,5 +60,21 @@ export class GameData {
   @action
   settle() {
     this.initialize(this.gameConfigs.wholeRound, this.roundIndex + 1);
+    this.resetData();
+  }
+
+  fakeData() {
+    const shouldUpdateTotalBets = (Math.random() * 100) >> 0 < 30;
+
+    if (shouldUpdateTotalBets) {
+      this.totalBets.dragon = (Math.random() * 10000) >> 0;
+      this.totalBets.tie = (Math.random() * 10000) >> 0;
+      this.totalBets.tiger = (Math.random() * 10000) >> 0;
+    }
+  }
+
+  resetData() {
+    this.totalBets = {};
+    this.ownBets = {};
   }
 }

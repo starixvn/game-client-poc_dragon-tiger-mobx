@@ -3,7 +3,7 @@ import { mobx } from "../../common/external";
 import { gameData } from "../server-simulator-container";
 
 const { ccclass, property } = _decorator;
-const { reaction } = mobx;
+const { reaction, when } = mobx;
 
 @ccclass
 export class ServerSimulator extends Component {
@@ -19,15 +19,13 @@ export class ServerSimulator extends Component {
     gameData.initialize(this.remainingTime, this.startRoundAt);
     this.schedule(this.updatePerSecond.bind(this), 1);
 
-    reaction(() => gameData.shouldSettle, this.settle.bind(this));
+    when(() => gameData.shouldSettle, this.settle.bind(this));
   }
 
-  settle(shouldSettle: boolean) {
-    if (shouldSettle) {
-      gameData.settle();
+  settle() {
+    gameData.settle();
 
-      this.emit({ remainingTime: gameData.remainingTime });
-    }
+    this.emit({ remainingTime: gameData.remainingTime });
   }
 
   updatePerSecond() {
@@ -40,6 +38,17 @@ export class ServerSimulator extends Component {
 
       this.emit(payload);
     }
+
+    gameData.fakeData();
+    this.sendMessagePerSecond();
+  }
+
+  sendMessagePerSecond() {
+    const payload = {
+      totalBets: JSON.parse(JSON.stringify(gameData.totalBets)),
+    };
+
+    this.emit(payload);
   }
 
   emit(payload: unknown) {
