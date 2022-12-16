@@ -2194,6 +2194,7 @@
     "winning": {
       "__id__": 74
     },
+    "key": "",
     "_id": ""
   },
   {
@@ -3182,6 +3183,7 @@
     "winning": {
       "__id__": 120
     },
+    "key": "",
     "_id": ""
   },
   {
@@ -4038,6 +4040,7 @@
     "winning": {
       "__id__": 160
     },
+    "key": "",
     "_id": ""
   },
   {
@@ -6437,7 +6440,7 @@
     "fileId": "afncb7XiJOYLLbL1D3Xriw"
   },
   {
-    "__type__": "2322aRzOL1NYZnQWJRX/3nE",
+    "__type__": "4101e+MHkZPwIgCmDtoC5e/",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -6447,17 +6450,14 @@
     "__prefab": {
       "__id__": 338
     },
-    "historyChain": {
-      "__id__": 329
-    },
     "_id": ""
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "c9IJr6nIVLCrBL7rZrkOMs"
+    "fileId": "07T7RmqzRBHapevvNOtCCH"
   },
   {
-    "__type__": "c8f79QeHwtLrrYF09bAbvOW",
+    "__type__": "1a4cahTFAZDD4OIWca3d0Tl",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -6472,7 +6472,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "e6+cXhuVFCXr9pvAAtnJ1I"
+    "fileId": "4cuLIQle1A3obK/OIQlDFW"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -6559,28 +6559,6 @@
   {
     "__type__": "cc.TargetOverrideInfo",
     "source": {
-      "__id__": 339
-    },
-    "sourceInfo": null,
-    "propertyPath": [
-      "timer"
-    ],
-    "target": {
-      "__id__": 299
-    },
-    "targetInfo": {
-      "__id__": 347
-    }
-  },
-  {
-    "__type__": "cc.TargetInfo",
-    "localID": [
-      "043AAV7ftIYqmisdNdKxdu"
-    ]
-  },
-  {
-    "__type__": "cc.TargetOverrideInfo",
-    "source": {
       "__id__": 329
     },
     "sourceInfo": null,
@@ -6591,13 +6569,35 @@
       "__id__": 319
     },
     "targetInfo": {
-      "__id__": 349
+      "__id__": 347
     }
   },
   {
     "__type__": "cc.TargetInfo",
     "localID": [
       "083Hw5APdGmZoWygbfOJb5"
+    ]
+  },
+  {
+    "__type__": "cc.TargetOverrideInfo",
+    "source": {
+      "__id__": 339
+    },
+    "sourceInfo": null,
+    "propertyPath": [
+      "timer"
+    ],
+    "target": {
+      "__id__": 299
+    },
+    "targetInfo": {
+      "__id__": 349
+    }
+  },
+  {
+    "__type__": "cc.TargetInfo",
+    "localID": [
+      "043AAV7ftIYqmisdNdKxdu"
     ]
   }
 ]

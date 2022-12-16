@@ -26,6 +26,7 @@ export class ServerSimulator extends Component {
     gameData.settle();
 
     this.emit({ remainingTime: gameData.remainingTime });
+    when(() => gameData.shouldSettle, this.settle.bind(this));
   }
 
   updatePerSecond() {
