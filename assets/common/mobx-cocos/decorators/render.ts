@@ -1,4 +1,5 @@
 import { Caller } from "../interfaces";
+import { Reflect } from "../reflect-metadata";
 
 function registerWithAutoRunMode(...args: any[]) {
   const isDefaultDecorator = args.length === 3;

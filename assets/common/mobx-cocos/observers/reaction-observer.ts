@@ -8,11 +8,12 @@ export type WatcherMethod = (
 
 export class ReactionObserver extends ComponentObserver {
   constructor(
-    component: any,
+    componentConstructor: AnyConstructor,
+    componentInstance: any,
     registerToExternalRegistry: any,
     protected readonly getWatcherMethod: WatcherMethod
   ) {
-    super(component, registerToExternalRegistry);
+    super(componentConstructor, componentInstance, registerToExternalRegistry);
   }
 
   protected get key(): string {
@@ -20,10 +21,10 @@ export class ReactionObserver extends ComponentObserver {
   }
 
   protected registerJob(key: string, value: any) {
-    const view = this.component[key].bind(this.component);
+    const view = this.componentInstance[key].bind(this.componentInstance);
     const options = Object.assign(
       {
-        name: `${Object.getPrototypeOf(this.component).name}#${key}`,
+        name: `${this.componentConstructor.name}#${key}`,
       },
       { fireImmediately: true },
       value.options

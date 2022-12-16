@@ -4,10 +4,15 @@ import { createObserver } from "../observers/create-observer";
 export function createObserverDecorator<T extends AnyConstructor>(
   mobx: Mobx,
   diContainer: DIContainer,
-  Constructor: T
+  componentConstructor: T
 ) {
-  return class extends Constructor {
-    protected mobxObserver = createObserver(this, mobx, diContainer);
+  return class extends componentConstructor {
+    protected mobxObserver = createObserver(
+      componentConstructor,
+      this,
+      mobx,
+      diContainer
+    );
 
     protected onLoad() {
       if (super.onLoad && super.onLoad() === false) {

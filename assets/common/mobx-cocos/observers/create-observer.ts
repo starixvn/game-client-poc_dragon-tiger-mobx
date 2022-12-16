@@ -14,13 +14,19 @@ function getMethodFromConstructor(diContainer: DIContainer) {
 }
 
 export function createObserver(
-  component: unknown,
+  componentConstructor: AnyConstructor,
+  componentInstance: unknown,
   mobx: Mobx,
   diContainer: DIContainer
 ): IObserver {
-  const autoRun = new AutoRunObserver(component, mobx.autorun);
+  const autoRun = new AutoRunObserver(
+    componentConstructor,
+    componentInstance,
+    mobx.autorun
+  );
   const reaction = new ReactionObserver(
-    component,
+    componentConstructor,
+    componentInstance,
     mobx.reaction,
     getMethodFromConstructor(diContainer)
   );

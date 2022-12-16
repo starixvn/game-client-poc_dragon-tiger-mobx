@@ -1,4 +1,6 @@
 import { IObserver } from "./observer";
+import { Reflect } from "../reflect-metadata";
+import { AnyConstructor } from "../interfaces";
 
 type Disposer = () => void;
 type RegisterJob = (...params: unknown[]) => Disposer;
@@ -7,7 +9,8 @@ export abstract class ComponentObserver implements IObserver {
   protected disposers: Disposer[] = [];
 
   constructor(
-    protected readonly component: any,
+    protected readonly componentConstructor: AnyConstructor,
+    protected readonly componentInstance: any,
     protected readonly registerToExternalRegistry: RegisterJob
   ) {}
 
@@ -30,24 +33,32 @@ export abstract class ComponentObserver implements IObserver {
   }
 
   protected get properties() {
-    return this.getAllComponentMethods()
+    const methods = [...this.getAllComponentMethods()];
+    const properties = methods
       .filter((property) =>
-        Reflect.hasMetadata(this.key, this.component, property)
+        Reflect.hasMetadata(this.key, this.componentConstructor, property)
       )
       .map((property) => ({
         name: property,
-        value: Reflect.getMetadata(this.key, this.component, property),
+        value: Reflect.getMetadata(
+          this.key,
+          this.componentConstructor,
+          property
+        ),
       }));
+
+    return properties;
   }
 
   protected getAllComponentMethods() {
-    const prototypes = this.getAllPrototypes(this.component);
+    const prototypes = this.getAllPrototypes(this.componentInstance);
 
     const methods = prototypes
       .flatMap((prototype) => Object.getOwnPropertyNames(prototype))
-      .filter((name) => typeof this.component[name] === "function");
+      .filter((name) => typeof this.componentInstance[name] === "function");
+    const setOfMethods = new Set(methods);
 
-    return [...new Set(methods)];
+    return Array.from(setOfMethods);
   }
 
   protected getAllPrototypes(object: unknown) {

@@ -7,11 +7,11 @@ export class AutoRunObserver extends ComponentObserver {
 
   protected registerJob(key: string, value: unknown) {
     const options = Object.assign(
-      { name: `${Object.getPrototypeOf(this.component).name}#${key}` },
+      { name: `${this.componentConstructor.name}#${key}` },
       value
     );
 
-    const view = this.component[key].bind(this.component);
+    const view = this.componentInstance[key].bind(this.componentInstance);
 
     return this.registerToExternalRegistry(view, options);
   }
