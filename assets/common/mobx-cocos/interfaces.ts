@@ -13,6 +13,10 @@ export interface IWatcher<T> {
   watch(): T;
 }
 
+export interface IHandler<Param> {
+  handle(param: Param): Promise<void>;
+}
+
 export interface Caller<T> {
   (instance: T, ...params: unknown[]): unknown;
 }

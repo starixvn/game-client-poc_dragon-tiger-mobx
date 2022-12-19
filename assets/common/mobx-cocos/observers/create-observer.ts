@@ -1,5 +1,6 @@
 import { AnyConstructor, Caller, DIContainer, Mobx } from "../interfaces";
 import { AutoRunObserver } from "./auto-run-observer";
+import { HandlerObserver } from "./handler-observer";
 import { IObserver } from "./observer";
 import { ObserverManager } from "./observer-manager";
 import { ReactionObserver } from "./reaction-observer";
@@ -10,6 +11,23 @@ function getMethodFromConstructor(diContainer: DIContainer) {
     const method = (...params: unknown[]) => caller(instance, ...params);
 
     return method;
+  };
+}
+
+function registerHandler(handle: any, component: unknown, name: string) {
+  const componentFn = component[name].bind(component);
+  const newComponentFn = (...params: unknown[]) => {
+    const response = componentFn(...params);
+
+    handle(response);
+
+    return response;
+  };
+
+  component[name] = newComponentFn;
+
+  return () => {
+    component[name] = componentFn;
   };
 }
 
@@ -30,8 +48,14 @@ export function createObserver(
     mobx.reaction,
     getMethodFromConstructor(diContainer)
   );
+  const handler = new HandlerObserver(
+    componentConstructor,
+    componentInstance,
+    registerHandler,
+    getMethodFromConstructor(diContainer)
+  );
 
-  const manager = new ObserverManager([autoRun, reaction]);
+  const manager = new ObserverManager([autoRun, reaction, handler]);
 
   return manager;
 }

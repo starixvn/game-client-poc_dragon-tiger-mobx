@@ -33,7 +33,7 @@ export abstract class ComponentObserver implements IObserver {
   }
 
   protected get properties() {
-    const methods = [...this.getAllComponentMethods()];
+    const methods = this.getAllComponentMethods();
     const properties = methods
       .filter((property) =>
         Reflect.hasMetadata(this.key, this.componentConstructor, property)
