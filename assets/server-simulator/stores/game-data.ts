@@ -1,5 +1,5 @@
 import { inversify, mobx } from "../../common/external";
-import { DragonTigerChoice } from "../../dragon-tiger-mobx/scripts/stores/dragon-tiger-match-store";
+import { DragonTigerChoice } from "../../dragon-tiger/scripts/stores/dragon-tiger-match-store";
 import { rounds } from "../data/rounds";
 
 const { observable, makeObservable, action, computed } = mobx;

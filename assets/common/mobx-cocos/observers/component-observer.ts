@@ -51,7 +51,7 @@ export abstract class ComponentObserver implements IObserver {
   }
 
   protected getAllComponentMethods() {
-    const prototypes = this.getAllPrototypes(this.componentInstance);
+    const prototypes = ComponentObserver.getAllPrototypes(this.componentInstance);
 
     const methods = prototypes
       .flatMap((prototype) => Object.getOwnPropertyNames(prototype))
@@ -61,7 +61,7 @@ export abstract class ComponentObserver implements IObserver {
     return Array.from(setOfMethods);
   }
 
-  protected getAllPrototypes(object: unknown) {
+  protected static getAllPrototypes(object: unknown) {
     const prototypes = [];
 
     let prototype = Object.getPrototypeOf(object);

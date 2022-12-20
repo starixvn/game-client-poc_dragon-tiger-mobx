@@ -13,10 +13,11 @@ export class DragonTigerTimer extends Component {
   protected timer: Timer = null;
 
   @render(RemainingTimeWatcher)
-  onRemainingTimeUpdated(time: number) {
-    this.timer!.text = (time || 0).toLocaleString("en-US", {
-      minimumIntegerDigits: 2,
-    });
+  onRemainingTimeUpdated(remainingTime: number) {
+    const options = { minimumIntegerDigits: 2 };
+    const timeInString = (remainingTime || 0).toLocaleString("en-US", options);
+
+    this.timer!.text = timeInString;
   }
 
   @render(UIWatcher, (watcher) => watcher.watchTimerColor())

@@ -26,7 +26,6 @@ export class ReactionObserver extends ComponentObserver {
       {
         name: `${this.componentConstructor.name}#${key}`,
       },
-      { fireImmediately: true },
       value.options
     );
     const watch = this.getWatcherMethod(value.constructor, value.caller);

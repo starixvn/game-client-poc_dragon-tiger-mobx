@@ -2,7 +2,7 @@ import { Component, _decorator } from "cc";
 import BettingArea from "../../../common/components/betting-area";
 import { mobx } from "../../../common/external";
 import { matchStore } from "../dragon-tiger-mobx-container";
-import { DragonTigerChoice } from "../stores/dragon-tiger-match-store";
+import { DragonTigerChoice } from "../../../dragon-tiger/scripts/stores/dragon-tiger-match-store";
 
 const { ccclass, property } = _decorator;
 const { reaction } = mobx;

@@ -1,6 +1,6 @@
 import { inversify } from "../../../common/external";
 import { IWatcher } from "../../../common/mobx-cocos";
-import { DragonTigerMatchStore } from "../../../dragon-tiger-mobx/scripts/stores/dragon-tiger-match-store";
+import { DragonTigerMatchStore } from "../stores/dragon-tiger-match-store";
 
 const { inject, injectable } = inversify;
 

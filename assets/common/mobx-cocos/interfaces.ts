@@ -1,5 +1,7 @@
 export type AnyConstructor = new (...args: any[]) => any;
 
+export type AnyFunction = (...args: any[]) => any;
+
 export interface Mobx {
   autorun(...params: unknown[]);
   reaction(...params: unknown[]);

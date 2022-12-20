@@ -1,6 +1,9 @@
 import { Component, _decorator } from "cc";
 import BettingArea from "../../../common/components/betting-area";
 import { mobx } from "../../../common/external";
+import { render } from "../../../common/mobx-cocos";
+import { DragonTigerChoice } from "../stores/dragon-tiger-match-store";
+import { TotalBetsWatcher } from "../watchers/total-bets-watcher";
 
 const { ccclass, property } = _decorator;
 const { reaction } = mobx;
@@ -10,11 +13,8 @@ export class DragonTigerBettingAreas extends Component {
   @property([BettingArea])
   protected bettingAreas: BettingArea[] = [];
 
-  onLoad() {
-    reaction(() => matchStore.totalBets, this.updateTotalBets.bind(this));
-  }
-
-  updateTotalBets(bets: DragonTigerChoice<number>) {
+  @render(TotalBetsWatcher)
+  renderTotalBets(bets: DragonTigerChoice<number>) {
     this.bettingAreas.forEach((area) => {
       const key = area.key as any;
 

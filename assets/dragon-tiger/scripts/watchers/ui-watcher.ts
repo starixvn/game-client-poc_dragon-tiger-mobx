@@ -1,6 +1,6 @@
 import { Color } from "cc";
 import { inversify } from "../../../common/external";
-import { DragonTigerUIStore } from "../../../dragon-tiger-mobx/scripts/stores/dragon-tiger-ui-store";
+import { DragonTigerUIStore } from "../stores/dragon-tiger-ui-store";
 
 const { inject, injectable } = inversify;
 

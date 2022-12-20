@@ -26,10 +26,19 @@ export class HandlerObserver extends ComponentObserver {
 
   protected registerJob(key: string, value: any) {
     const handle = this.getHandleMethod(value.constructor, value.caller);
+    const options = { name: key };
 
-    return this.registerToExternalRegistry(handle, this.componentInstance, key);
+    return this.registerToExternalRegistry(
+      handle,
+      this.componentInstance,
+      options
+    );
   }
 
+  /**
+   * This observer will be wrapped in some method of the component,
+   * so we only want it to observe only once.
+   */
   public observe(): void {
     if (!this.observed) {
       this.observed = true;

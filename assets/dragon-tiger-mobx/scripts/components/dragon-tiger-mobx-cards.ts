@@ -2,7 +2,7 @@ import { Component, _decorator } from "cc";
 import Card from "../../../common/components/card";
 import { mobx } from "../../../common/external";
 import { uiStore } from "../dragon-tiger-mobx-container";
-import { DragonTigerChoice } from "../stores/dragon-tiger-match-store";
+import { DragonTigerChoice } from "../../../dragon-tiger/scripts/stores/dragon-tiger-match-store";
 
 const { ccclass, property } = _decorator;
 const { reaction } = mobx;

@@ -1,6 +1,6 @@
 import { Sprite, _decorator, Node, tween, v3, Vec3, Tween } from "cc";
 import HistoryChainItem from "../../../common/components/history-chain-item";
-import { DragonTigerChoice } from "../stores/dragon-tiger-match-store";
+import { DragonTigerChoice } from "../../../dragon-tiger/scripts/stores/dragon-tiger-match-store";
 
 const { ccclass, property } = _decorator;
 

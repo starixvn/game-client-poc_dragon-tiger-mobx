@@ -1,33 +1,18 @@
 import { AnyConstructor, Caller, DIContainer, Mobx } from "../interfaces";
+import { createAutoRunRegistry } from "../registries/register-auto-run";
+import { registerHandler } from "../registries/register-handler";
+import { createReactionRegistry } from "../registries/register-reaction";
 import { AutoRunObserver } from "./auto-run-observer";
 import { HandlerObserver } from "./handler-observer";
 import { IObserver } from "./observer";
 import { ObserverManager } from "./observer-manager";
 import { ReactionObserver } from "./reaction-observer";
 
-function getMethodFromConstructor(diContainer: DIContainer) {
+function createMethodResolver(diContainer: DIContainer) {
   return (constructor: AnyConstructor, caller: Caller<unknown>) => {
     const instance = diContainer.resolve(constructor);
-    const method = (...params: unknown[]) => caller(instance, ...params);
 
-    return method;
-  };
-}
-
-function registerHandler(handle: any, component: unknown, name: string) {
-  const componentFn = component[name].bind(component);
-  const newComponentFn = (...params: unknown[]) => {
-    const response = componentFn(...params);
-
-    handle(response);
-
-    return response;
-  };
-
-  component[name] = newComponentFn;
-
-  return () => {
-    component[name] = componentFn;
+    return (...params: unknown[]) => caller(instance, ...params);
   };
 }
 
@@ -37,22 +22,26 @@ export function createObserver(
   mobx: Mobx,
   diContainer: DIContainer
 ): IObserver {
+  const methodResolver = createMethodResolver(diContainer);
+
   const autoRun = new AutoRunObserver(
     componentConstructor,
     componentInstance,
-    mobx.autorun
+    createAutoRunRegistry(mobx)
   );
+
   const reaction = new ReactionObserver(
     componentConstructor,
     componentInstance,
-    mobx.reaction,
-    getMethodFromConstructor(diContainer)
+    createReactionRegistry(mobx),
+    methodResolver
   );
+
   const handler = new HandlerObserver(
     componentConstructor,
     componentInstance,
     registerHandler,
-    getMethodFromConstructor(diContainer)
+    methodResolver
   );
 
   const manager = new ObserverManager([autoRun, reaction, handler]);
