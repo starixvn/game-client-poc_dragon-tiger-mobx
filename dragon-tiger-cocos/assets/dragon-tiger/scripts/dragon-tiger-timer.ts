@@ -15,6 +15,7 @@ export class DragonTigerTimer extends Component {
 
   @render(RemainingTimeWatcher)
   onRemainingTimeUpdated(remainingTime: number) {
+    console.log(arguments);
     const options = { minimumIntegerDigits: 2 };
     const timeInString = (remainingTime || 0).toLocaleString("en-US", options);
 

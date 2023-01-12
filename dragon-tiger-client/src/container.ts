@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import { Container } from "inversify";
 import { helpers } from "inversify-vanillajs-helpers";
-import { ReduceRemainingTime } from "./handlers";
+import { ConnectToServer, ReduceRemainingTime } from "./handlers";
 import {
   DragonTigerConfigsStore,
   DragonTigerMatchStore,
@@ -10,6 +10,7 @@ import {
 import { MatchWatcher, RemainingTimeWatcher, UIWatcher } from "./watchers";
 
 helpers.annotate(ReduceRemainingTime, [DragonTigerMatchStore]);
+helpers.annotate(ConnectToServer, [DragonTigerMatchStore]);
 
 helpers.annotate(DragonTigerConfigsStore);
 helpers.annotate(DragonTigerMatchStore);
