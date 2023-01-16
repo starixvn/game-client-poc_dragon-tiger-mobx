@@ -1,4 +1,3 @@
-import { makeAutoObservable } from "mobx";
 import { DragonTigerConfigsStore } from "./dragon-tiger-configs-store";
 import {
   DragonTigerChoice,
@@ -7,10 +6,11 @@ import {
 
 export class DragonTigerUIStore {
   constructor(
+    makeObservable: (...params: any[]) => any,
     protected readonly match: DragonTigerMatchStore,
     protected readonly configs: DragonTigerConfigsStore
   ) {
-    makeAutoObservable(this);
+    makeObservable(this);
   }
 
   get isWaitingTime() {

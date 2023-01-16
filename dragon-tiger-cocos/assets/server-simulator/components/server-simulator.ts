@@ -1,55 +1,63 @@
 import { Component, _decorator } from "cc";
-import { mobx } from "../../common/external";
-import { gameData } from "../server-simulator-container";
+import { rounds } from "../data/rounds";
 
 const { ccclass, property } = _decorator;
-const { when } = mobx;
 
 @ccclass
 export class ServerSimulator extends Component {
   @property
-  startRoundAt = 0;
+  roundId = 0;
 
-  @property
   remainingTime = 36;
 
-  firstLoad = true;
+  totalBets = {
+    dragon: 0,
+    tiger: 0,
+    tie: 0,
+  };
 
   onLoad() {
-    gameData.initialize(this.remainingTime, this.startRoundAt);
-    this.schedule(this.updatePerSecond.bind(this), 1);
+    this.schedule(() => {
+      this.reset();
+      this.emitRoundResult();
+      this.emitRemainingTime();
+    }, this.remainingTime);
 
-    when(() => gameData.shouldSettle, this.settle.bind(this));
+    this.schedule(() => {
+      this.emitTotalBets();
+    }, 1);
   }
 
-  settle() {
-    gameData.settle();
-
-    this.emit({ remainingTime: gameData.remainingTime });
-    when(() => gameData.shouldSettle, this.settle.bind(this));
+  onEnable() {
+    this.emit({ remainingTime: this.remainingTime });
   }
 
-  updatePerSecond() {
-    gameData.countdown();
-
-    if (this.firstLoad) {
-      this.firstLoad = false;
-
-      const payload = JSON.parse(JSON.stringify(gameData));
-
-      this.emit(payload);
-    }
-
-    gameData.fakeData();
-    this.sendMessagePerSecond();
+  reset() {
+    this.totalBets = {
+      dragon: 0,
+      tiger: 0,
+      tie: 0,
+    };
   }
 
-  sendMessagePerSecond() {
-    const payload = {
-      totalBets: JSON.parse(JSON.stringify(gameData.totalBets)),
+  emitTotalBets() {
+    const random = () => (Math.random() * 100) >> 0;
+    this.totalBets = {
+      dragon: this.totalBets.dragon + random(),
+      tiger: this.totalBets.tiger + random(),
+      tie: this.totalBets.tie + random(),
     };
 
-    this.emit(payload);
+    this.emit({ totalBets: this.totalBets });
+  }
+
+  emitRemainingTime() {
+    this.emit({ remainingTime: this.remainingTime });
+  }
+
+  emitRoundResult() {
+    this.emit(rounds[this.roundId]);
+    this.roundId = this.roundId + 1;
   }
 
   emit(payload: unknown) {

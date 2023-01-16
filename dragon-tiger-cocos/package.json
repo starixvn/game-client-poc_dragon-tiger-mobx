@@ -1,19 +1,18 @@
 {
   "name": "dragon-tiger-mobx",
   "uuid": "37e7d37c-d484-4eb0-8676-ac4e2fea658b",
-  "version": "3.6.2",
+  "version": "0.0.0",
   "creator": {
-    "version": "3.6.2"
+    "version": "3.6.3"
   },
   "scripts": {
+    "prepare": "npm run build --prefix ../dragon-tiger-client && npm run build --prefix ../observer",
     "remove:node_modules": "rimraf node_modules"
   },
   "dependencies": {
     "dragon-tiger-client": "file:../dragon-tiger-client",
-    "inversify": "6.0.1",
     "mobx": "6.7.0",
-    "observer": "file:../observer",
-    "reflect-metadata": "0.1.13"
+    "observer": "file:../observer"
   },
   "devDependencies": {
     "rimraf": "3.0.2"

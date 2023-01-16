@@ -10,12 +10,12 @@ export class ConnectToServer implements IHandler<Connection> {
 
   handle(connection: Connection) {
     connection.on("message", (payload) => {
-      if (payload.totalBets) {
-        this.match.totalBets = payload.totalBets;
+      if (payload.remainingTime) {
+        this.match.remainingTime = payload.remainingTime;
       }
 
-      if (payload.remainingTime) {
-        this.match.setRemainingTime(payload.remainingTime);
+      if (!!payload.totalBets) {
+        this.match.totalBets = payload.totalBets;
       }
     });
   }

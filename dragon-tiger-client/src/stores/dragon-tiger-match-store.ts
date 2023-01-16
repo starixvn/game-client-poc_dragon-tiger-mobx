@@ -1,5 +1,3 @@
-import { makeAutoObservable } from "mobx";
-
 export interface DragonTigerChoice<T> {
   dragon?: T;
   tiger?: T;
@@ -12,27 +10,31 @@ export interface Card {
 }
 
 export class DragonTigerMatchStore {
-  constructor() {
-    makeAutoObservable(this);
+  constructor(makeObservable: (...params: any[]) => any) {
+    makeObservable(this);
   }
 
-  remainingTime: number;
+  protected _remainingTime: number = 0;
 
-  totalBets: DragonTigerChoice<number>;
+  get remainingTime() {
+    return this._remainingTime;
+  }
 
-  ownBets: DragonTigerChoice<number>;
+  set remainingTime(value: number) {
+    this._remainingTime = value;
+  }
 
-  result: DragonTigerChoice<Card>;
+  totalBets: DragonTigerChoice<number> = {};
 
-  settlementResult: DragonTigerChoice<boolean>;
+  ownBets: DragonTigerChoice<number> = {};
+
+  result: DragonTigerChoice<Card> = {};
+
+  settlementResult: DragonTigerChoice<boolean> = {};
 
   reduceRemainingTime() {
     if (this.remainingTime > 0) {
       this.remainingTime = this.remainingTime - 1;
     }
-  }
-
-  setRemainingTime(time: number) {
-    this.remainingTime = time;
   }
 }

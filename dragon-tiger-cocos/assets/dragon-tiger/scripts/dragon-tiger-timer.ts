@@ -1,33 +1,32 @@
 import { Color, Component, _decorator } from "cc";
-import DTClient from "dragon-tiger-client";
+import DTClient from "dragon-tiger-client/umd";
 import Observer from "observer";
 import Timer from "../../common/components/timer";
 
 const { ccclass, property } = _decorator;
 const { observer, render } = Observer;
-const { RemainingTimeWatcher, UIWatcher } = DTClient;
+const { RemainingTimeWatcher, DragonTigerUIStore } = DTClient;
 
 @ccclass
-@observer
+@observer("dragonTiger")
 export class DragonTigerTimer extends Component {
   @property(Timer)
   protected timer: Timer = null;
 
   @render(RemainingTimeWatcher)
   onRemainingTimeUpdated(remainingTime: number) {
-    console.log(arguments);
     const options = { minimumIntegerDigits: 2 };
     const timeInString = (remainingTime || 0).toLocaleString("en-US", options);
 
     this.timer!.text = timeInString;
   }
 
-  @render(UIWatcher, (watcher) => watcher.watchTimerColor())
+  @render(DragonTigerUIStore, (store) => store.timerColor)
   changeTimerColor(color: string) {
     this.timer!.color = Color[color];
   }
 
-  @render(UIWatcher, (watcher) => watcher.watchIsWaitingTime())
+  @render(DragonTigerUIStore, (store) => store.isWaitingTime)
   toggleTimer(hide: boolean) {
     this.timer.node.active = !hide;
   }

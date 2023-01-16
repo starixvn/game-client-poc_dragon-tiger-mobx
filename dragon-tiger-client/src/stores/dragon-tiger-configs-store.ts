@@ -1,8 +1,6 @@
-import { makeAutoObservable } from "mobx";
-
 export class DragonTigerConfigsStore {
-  constructor() {
-    makeAutoObservable(this);
+  constructor(makeObservable: (...params: any[]) => any) {
+    makeObservable(this);
   }
 
   durationConfigs = {

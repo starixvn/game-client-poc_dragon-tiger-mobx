@@ -1,29 +1,45 @@
-import "reflect-metadata";
-import { Container } from "inversify";
-import { helpers } from "inversify-vanillajs-helpers";
-import { ConnectToServer, ReduceRemainingTime } from "./handlers";
-import {
-  DragonTigerConfigsStore,
-  DragonTigerMatchStore,
-  DragonTigerUIStore,
-} from "./stores";
-import { MatchWatcher, RemainingTimeWatcher, UIWatcher } from "./watchers";
+import { createInjector, Injector, Scope } from "typed-inject";
+import { Dependencies } from "./container-registry";
 
-helpers.annotate(ReduceRemainingTime, [DragonTigerMatchStore]);
-helpers.annotate(ConnectToServer, [DragonTigerMatchStore]);
+function getToken(ctor: any) {
+  return typeof ctor === "string" ? ctor : ctor.token;
+}
 
-helpers.annotate(DragonTigerConfigsStore);
-helpers.annotate(DragonTigerMatchStore);
-helpers.annotate(DragonTigerUIStore, [
-  DragonTigerMatchStore,
-  DragonTigerConfigsStore,
-]);
+function createAppInjector(rootInjector: Injector) {
+  const injector = Dependencies.reduce((injector, { ctor, inject, token }) => {
+    Object.defineProperty(ctor, "inject", {
+      value: inject.map(getToken),
+    });
 
-helpers.annotate(MatchWatcher, [DragonTigerMatchStore]);
-helpers.annotate(RemainingTimeWatcher, [DragonTigerMatchStore]);
-helpers.annotate(UIWatcher, [DragonTigerUIStore]);
+    Object.defineProperty(ctor, "token", {
+      value: token,
+    });
 
-export const container = new Container({
-  defaultScope: "Singleton",
-  autoBindInjectable: true,
-});
+    return injector.provideClass(getToken(ctor), ctor as any, Scope.Singleton);
+  }, rootInjector);
+
+  Dependencies.forEach(({ ctor }) => {
+    injector.injectClass(ctor as any);
+  });
+
+  return injector;
+}
+
+export interface ContainerOptions {
+  makeObservable(...params: any[]): any;
+}
+
+export function createContainer(options: ContainerOptions) {
+  const root = createInjector().provideValue(
+    "makeObservable",
+    options.makeObservable
+  );
+
+  const injector = createAppInjector(root);
+
+  function resolve<T>(ctor: new (...params: any[]) => T): T {
+    return injector.resolve((ctor as any).token as never);
+  }
+
+  return { resolve };
+}
