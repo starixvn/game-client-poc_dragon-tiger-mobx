@@ -16,6 +16,12 @@ export class ServerSimulator extends Component {
     tie: 0,
   };
 
+  ownBets = {
+    dragon: 0,
+    tiger: 0,
+    tie: 0,
+  };
+
   onLoad() {
     this.schedule(() => {
       this.reset();
@@ -26,6 +32,14 @@ export class ServerSimulator extends Component {
     this.schedule(() => {
       this.emitTotalBets();
     }, 1);
+
+    this.node.on("bet", (bets: Record<string, number>) => {
+      Object.keys(bets).forEach((key) => {
+        this.ownBets[key] += bets[key];
+      });
+
+      this.emitOwnBets();
+    });
   }
 
   onEnable() {
@@ -34,6 +48,12 @@ export class ServerSimulator extends Component {
 
   reset() {
     this.totalBets = {
+      dragon: 0,
+      tiger: 0,
+      tie: 0,
+    };
+
+    this.ownBets = {
       dragon: 0,
       tiger: 0,
       tie: 0,
@@ -49,6 +69,10 @@ export class ServerSimulator extends Component {
     };
 
     this.emit({ totalBets: this.totalBets });
+  }
+
+  emitOwnBets() {
+    this.emit({ ownBets: this.ownBets });
   }
 
   emitRemainingTime() {

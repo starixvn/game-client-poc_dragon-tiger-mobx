@@ -1,4 +1,4 @@
-import { ConnectToServer, ReduceRemainingTime } from "./handlers";
+import { Bet, ConnectToServer, ReduceRemainingTime } from "./handlers";
 import {
   DragonTigerConfigsStore,
   DragonTigerMatchStore,
@@ -41,5 +41,10 @@ export const Dependencies = [
     ctor: ReduceRemainingTime,
     token: "ReduceRemainingTime",
     inject: [DragonTigerMatchStore],
+  },
+  {
+    ctor: Bet,
+    token: "Bet",
+    inject: [ConnectToServer],
   },
 ];
