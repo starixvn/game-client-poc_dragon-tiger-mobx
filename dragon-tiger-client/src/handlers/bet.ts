@@ -1,11 +1,11 @@
 import { IHandler } from "../handler";
 import { DragonTigerChoice } from "../stores";
-import { ConnectToServer } from "./connect-to-server";
+import { ConnectToServer as ConnectionManager } from "./connect-to-server";
 
 export class Bet implements IHandler<DragonTigerChoice<number>> {
-  constructor(protected readonly server: ConnectToServer) {}
+  constructor(protected readonly manager: ConnectionManager) {}
 
   handle(bets: DragonTigerChoice<number>) {
-    this.server.connection.emit("bet", bets);
+    this.manager.connection.emit("bet", bets);
   }
 }
