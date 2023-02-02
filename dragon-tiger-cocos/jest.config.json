@@ -1,0 +1,15 @@
+{
+  "verbose": true,
+  "collectCoverage": true,
+  "coverageDirectory": "coverage",
+  "transform": {
+    "^.+\\.tsx?$": ["ts-jest", { "tsconfig": "tsconfig.jest.json" }]
+  },
+  "testPathIgnorePatterns": ["/node_modules/"],
+  "coverageReporters": ["cobertura", "text-summary", "text", "lcov"],
+  "moduleNameMapper": {
+    "cc": "<rootDir>/tests/utils/cc.ts",
+    "dragon-tiger-client/umd": "<rootDir>/tests/utils/dragon-tiger-client.ts",
+    "observer": "<rootDir>/tests/utils/observer.ts"
+  }
+}

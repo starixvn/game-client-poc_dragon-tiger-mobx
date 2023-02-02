@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "experimentalDecorators": true,
+    "useDefineForClassFields": true,
+    "esModuleInterop": true,
+    "allowJs": true,
+    "strict": false,
+    "checkJs": false,
+    "paths": {
+      "cc": ["tests/utils/cc.ts"],
+      "observer": ["tests/utils/observer.ts"],
+      "dragon-tiger-client/umd": ["tests/utils/dragon-tiger-client.ts"]
+    }
+  },
+  "include": ["assets/*", "node_modules/*"],
+  "exclude": ["**/*.test.ts"]
+}
