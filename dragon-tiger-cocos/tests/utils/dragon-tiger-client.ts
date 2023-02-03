@@ -1,4 +1,4 @@
 export default {
-  RemainingTimeWatcher: jest.fn(),
   DragonTigerUIStore: jest.fn(),
+  DragonTigerMatchStore: jest.fn(),
 };

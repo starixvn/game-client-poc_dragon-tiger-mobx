@@ -5,7 +5,7 @@ import Timer from "../../common/components/timer";
 
 const { ccclass, property } = _decorator;
 const { observer, render } = Observer;
-const { RemainingTimeWatcher, DragonTigerUIStore } = DTClient;
+const { DragonTigerUIStore, DragonTigerMatchStore } = DTClient;
 
 @ccclass
 @observer("dragonTiger")
@@ -13,7 +13,7 @@ export class DragonTigerTimer extends Component {
   @property(Timer)
   protected timer: Timer = null;
 
-  @render(RemainingTimeWatcher)
+  @render(DragonTigerMatchStore, (store) => store.remainingTime)
   onRemainingTimeUpdated(remainingTime: number) {
     const options = { minimumIntegerDigits: 2 };
     const timeInString = (remainingTime || 0).toLocaleString("en-US", options);

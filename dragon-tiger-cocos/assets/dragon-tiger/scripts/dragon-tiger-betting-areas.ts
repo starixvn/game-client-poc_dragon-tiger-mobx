@@ -6,7 +6,7 @@ import BettingArea from "../../common/components/betting-area";
 
 const { ccclass, property } = _decorator;
 const { render, observer, handle } = Observer;
-const { DragonTigerMatchStore, Bet } = DTClient;
+const { DragonTigerMatchStore, BetHandler } = DTClient;
 
 @ccclass
 @observer
@@ -44,7 +44,7 @@ export class DragonTigerBettingAreas extends Component {
     });
   }
 
-  @handle(Bet)
+  @handle(BetHandler)
   placeBet(choice: string) {
     return { [choice]: 100 };
   }

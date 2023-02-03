@@ -7,7 +7,7 @@ export interface Connection {
   emit(event: string, payload: any): void;
 }
 
-export class ConnectToServer implements IHandler<Connection> {
+export class ConnectToServerHandler implements IHandler<Connection> {
   connection: Connection;
 
   constructor(protected readonly match: DragonTigerMatchStore) {}

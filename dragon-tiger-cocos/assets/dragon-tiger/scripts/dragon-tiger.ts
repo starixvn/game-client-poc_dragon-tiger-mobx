@@ -6,7 +6,7 @@ import "./dragon-tiger-startup";
 
 const { ccclass } = _decorator;
 const { observer, handle } = Observer;
-const { ReduceRemainingTime, ConnectToServer } = DTClient;
+const { ReduceRemainingTimeHandler, ConnectToServerHandler } = DTClient;
 
 @ccclass
 @observer
@@ -16,10 +16,10 @@ export class DragonTiger extends Component {
     this.connectToServer();
   }
 
-  @handle(ReduceRemainingTime)
+  @handle(ReduceRemainingTimeHandler)
   onCronUpdated() {}
 
-  @handle(ConnectToServer)
+  @handle(ConnectToServerHandler)
   connectToServer() {
     const simulator = director
       .getScene()

@@ -1,10 +1,13 @@
-import { Bet, ConnectToServer, ReduceRemainingTime } from "./handlers";
+import {
+  BetHandler,
+  ConnectToServerHandler,
+  ReduceRemainingTimeHandler,
+} from "./handlers";
 import {
   DragonTigerConfigsStore,
   DragonTigerMatchStore,
   DragonTigerUIStore,
 } from "./stores";
-import { MatchWatcher, RemainingTimeWatcher } from "./watchers";
 
 export const Dependencies = [
   {
@@ -23,28 +26,18 @@ export const Dependencies = [
     inject: ["makeObservable", DragonTigerMatchStore, DragonTigerConfigsStore],
   },
   {
-    ctor: MatchWatcher,
-    token: "MatchWatcher",
+    ctor: ConnectToServerHandler,
+    token: "ConnectToServerHandler",
     inject: [DragonTigerMatchStore],
   },
   {
-    ctor: RemainingTimeWatcher,
-    token: "RemainingTimeWatcher",
+    ctor: ReduceRemainingTimeHandler,
+    token: "ReduceRemainingTimeHandler",
     inject: [DragonTigerMatchStore],
   },
   {
-    ctor: ConnectToServer,
-    token: "ConnectToServer",
-    inject: [DragonTigerMatchStore],
-  },
-  {
-    ctor: ReduceRemainingTime,
-    token: "ReduceRemainingTime",
-    inject: [DragonTigerMatchStore],
-  },
-  {
-    ctor: Bet,
-    token: "Bet",
-    inject: [ConnectToServer],
+    ctor: BetHandler,
+    token: "BetHandler",
+    inject: [ConnectToServerHandler],
   },
 ];
